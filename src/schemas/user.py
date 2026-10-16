@@ -1,6 +1,7 @@
 from typing import Optional
 
-from pydantic import BaseModel, EmailStr, field_validator, Field
+from pydantic import BaseModel, EmailStr, Field, field_validator
+
 from src.common.enums import UserRole
 from src.common.validators import clean_string, clean_email
 
@@ -8,6 +9,7 @@ from src.common.validators import clean_string, clean_email
 class UserCreate(BaseModel):
     username: str = Field(min_length=3, max_length=50)
     email: EmailStr
+    password: str = Field(min_length=8, max_length=128)
     role: UserRole
 
     @field_validator("username")
@@ -31,7 +33,11 @@ class UserRead(BaseModel):
 
 
 class UserUpdate(BaseModel):
-    username: Optional[str] = Field(default=None, min_length=3, max_length=50)
+    username: Optional[str] = Field(
+        default=None,
+        min_length=3,
+        max_length=50,
+    )
     email: EmailStr | None = None
     role: UserRole | None = None
 
