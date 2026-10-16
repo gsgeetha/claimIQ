@@ -1,6 +1,6 @@
 from datetime import date, datetime, UTC
-from sqlalchemy import String, Date, DateTime, Numeric, Enum
-from sqlalchemy.orm import Mapped, mapped_column
+from sqlalchemy import String, Date, DateTime, Numeric, Enum, ForeignKey
+from sqlalchemy.orm import Mapped, mapped_column, relationship
 from decimal import Decimal
 
 from src.common.enums import PolicyType, PolicyStatus
@@ -15,7 +15,7 @@ class Policy(Base):
 
     policy_number: Mapped[str] = mapped_column(String(50), unique=True, nullable=False)
 
-    customer_id: Mapped[str] = mapped_column(String(50), nullable=False)
+    customer_id: Mapped[int] = mapped_column(ForeignKey("users.id"), nullable=False)
 
     policy_type: Mapped[PolicyType] = mapped_column(Enum(PolicyType), nullable=False)
 
@@ -34,3 +34,11 @@ class Policy(Base):
     created_at: Mapped[datetime] = mapped_column(
         DateTime(timezone=True), default=lambda: datetime.now(UTC)
     )
+
+    claims = relationship(
+        "Claim",
+        back_populates="policy",
+        cascade="all, delete-orphan",
+    )
+
+    customer = relationship("User", back_populates="policies")

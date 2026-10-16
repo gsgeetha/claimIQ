@@ -28,3 +28,11 @@ class PolicyType(str, Enum):
     health = "health"
 
     property = "property"
+
+
+class ClaimStatus(str, Enum):
+    submitted = "submitted"
+    under_review = "under_review"
+    approved = "approved"
+    rejected = "rejected"
+    closed = "closed"
