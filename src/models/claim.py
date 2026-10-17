@@ -33,6 +33,17 @@ class Claim(Base):
         index=True,
     )
 
+    assigned_adjuster_id: Mapped[int | None] = mapped_column(
+        ForeignKey("users.id"),
+        nullable=True,
+        index=True,
+    )
+
+    assigned_adjuster = relationship(
+        "User",
+        back_populates="assigned_claims",
+    )
+
     incident_date: Mapped[date] = mapped_column(
         Date,
         nullable=False,
@@ -53,3 +64,7 @@ class Claim(Base):
         nullable=False,
         default=ClaimStatus.submitted,
     )
+
+    @property
+    def policy_number(self) -> str:
+        return self.policy.policy_number

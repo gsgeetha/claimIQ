@@ -2,6 +2,7 @@ from datetime import datetime
 
 from fastapi import HTTPException
 
+from src.common.enums import PolicyStatus
 from src.models.policy import Policy
 
 
@@ -90,8 +91,9 @@ def delete_policy(policy_id: int, db):
 
     policy = get_policy_by_id(policy_id, db)
 
-    db.delete(policy)
+    policy.status = PolicyStatus.inactive
 
     db.commit()
+    db.refresh(policy)
 
-    return {"message": "Policy deleted successfully"}
+    return {"message": "Policy deactivated successfully"}

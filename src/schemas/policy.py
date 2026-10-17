@@ -7,7 +7,7 @@ from src.common.validators import clean_string
 
 class PolicyCreate(BaseModel):
 
-    customer_id: str = Field(pattern=r"^CUST-\d{6}$")
+    customer_id: int
 
     policy_type: PolicyType
 
@@ -39,7 +39,7 @@ class PolicyRead(BaseModel):
 
     policy_number: str
 
-    customer_id: str
+    customer_id: int
 
     policy_type: PolicyType
 

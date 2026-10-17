@@ -64,6 +64,7 @@ def update_user(user_id: int, payload, db):
 def delete_user(user_id: int, db):
 
     user = get_user_by_id(user_id, db)
-    db.delete(user)
+    user.is_active = False
     db.commit()
-    return {"message": "User deleted successfully"}
+    db.refresh(user)
+    return {"message": "User deactivated successfully"}
