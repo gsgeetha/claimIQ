@@ -23,3 +23,13 @@ class User(Base):
     is_active: Mapped[bool] = mapped_column(Boolean, default=True)
 
     policies = relationship("Policy", back_populates="customer")
+
+    documents = relationship(
+        "Document",
+        back_populates="uploader",
+    )
+
+    assigned_claims = relationship(
+        "Claim",
+        back_populates="assigned_adjuster",
+    )

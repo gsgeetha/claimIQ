@@ -1,4 +1,4 @@
-from datetime import date, datetime
+from datetime import date
 from decimal import Decimal
 
 from pydantic import BaseModel
@@ -17,6 +17,10 @@ class ClaimUpdate(BaseModel):
     approved_amount: Decimal | None = None
 
 
+class ClaimAssignment(BaseModel):
+    assigned_adjuster_id: int
+
+
 class ClaimResponse(BaseModel):
     id: int
     claim_number: str
@@ -25,5 +29,6 @@ class ClaimResponse(BaseModel):
     claim_amount: Decimal
     approved_amount: Decimal | None
     status: ClaimStatus
+    assigned_adjuster_id: int | None
 
     model_config = {"from_attributes": True}
